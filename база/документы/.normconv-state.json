@@ -1,0 +1,20 @@
+{
+ "/tmp/arena/tenants/a6fc599c-9607-4647-acb8-675615ec6f8d/sessions/e1be666d-bf04-4d6d-9e6b-0278056623e0/workspace/sources/sp_56_13330_2021.docx": {
+  "sha256": "a762d30052e1125be653d345b2261c642c6c277ea05df916cd3ed3bcfc43a8c1",
+  "opts": "7820f2e8920f",
+  "tool": "0.1.0",
+  "md": "../../база/документы/СП 56.13330.2021.md",
+  "doc_id": "sp-56-13330-2021",
+  "confidence": 0.793,
+  "at": 1792565125.0912569
+ },
+ "/tmp/arena/tenants/a6fc599c-9607-4647-acb8-675615ec6f8d/sessions/e1be666d-bf04-4d6d-9e6b-0278056623e0/workspace/sources/sronoso-sp22.docx": {
+  "sha256": "7fbc569ddbd60e9fbf40e1d566dc9ec2d8f3b8f10b705ed5d7d7588935af6d86",
+  "opts": "7820f2e8920f",
+  "tool": "0.1.0",
+  "md": "../../база/документы/СП 22.13330.2016.md",
+  "doc_id": "sp-22-13330-2016",
+  "confidence": 0.265,
+  "at": 1792565127.7352371
+ }
+}

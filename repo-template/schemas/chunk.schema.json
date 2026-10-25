@@ -1,0 +1,175 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.org/schemas/chunk.schema.json",
+  "title": "RAG chunk of a normative document",
+  "type": "object",
+  "required": [
+    "chunk_id",
+    "doc",
+    "content",
+    "text",
+    "tokens_est"
+  ],
+  "properties": {
+    "chunk_id": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{16}$",
+      "description": "sha1(doc_id + clause path + content)[:16] — детерминированный"
+    },
+    "kind": {
+      "type": "string",
+      "enum": [
+        "text",
+        "table",
+        "title_page",
+        "appendix"
+      ],
+      "description": "title_page исключается из эмбеддингов"
+    },
+    "doc": {
+      "type": "object",
+      "required": [
+        "doc_id",
+        "designation",
+        "status"
+      ],
+      "properties": {
+        "doc_id": {
+          "type": "string"
+        },
+        "designation": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "year": {
+          "type": [
+            "string",
+            "integer"
+          ]
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "active",
+            "superseded",
+            "draft",
+            "rejected",
+            "unknown",
+            "licensed",
+            "suspended"
+          ]
+        },
+        "amendments": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "issuing_body": {
+          "type": "string"
+        },
+        "confidence": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "verified": {
+          "type": "boolean"
+        },
+        "path": {
+          "type": "string"
+        },
+        "license": {
+          "type": "string"
+        },
+        "language": {
+          "type": "string"
+        },
+        "references": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "агрегированный граф: объединение meta.refs всех чанков документа"
+        }
+      }
+    },
+    "breadcrumb": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Раздел > подраздел: входит в текст для эмбеддинга"
+    },
+    "clause": {
+      "type": "string",
+      "description": "Единственный пункт чанка, если их несколько — пустая строка"
+    },
+    "clauses": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "anchor": {
+      "type": "string"
+    },
+    "pages": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      }
+    },
+    "content": {
+      "type": "string",
+      "description": "Что показывается модели"
+    },
+    "text": {
+      "type": "string",
+      "description": "Что идёт в эмбеддинг: breadcrumb + content"
+    },
+    "tokens_est": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "n_tables": {
+      "type": "integer"
+    },
+    "n_formulas": {
+      "type": "integer"
+    },
+    "has_image": {
+      "type": "boolean"
+    },
+    "oversized": {
+      "type": "boolean",
+      "description": "Таблица/формула больше max_tokens — не резать, но помечать"
+    },
+    "caption": {
+      "type": "string",
+      "description": "Для чанков-таблиц: «Таблица 8.1 — …»"
+    },
+    "block_id": {
+      "type": "string",
+      "description": "идентификатор блока пункта (^c8-1-6 → c8-1-6)"
+    },
+    "meta": {
+      "type": "object",
+      "properties": {
+        "refs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "versionless-обозначения документов, упомянутые в тексте чанка (граф для retrieval-расширения)"
+        }
+      }
+    }
+  }
+}

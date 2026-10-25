@@ -1,0 +1,55 @@
+name: quality
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11", cache: pip }
+      - run: pip install -e "tools/[dev]"
+
+      - name: Схема фронтмэттера и overrides
+        run: |
+          pip install check-jsonschema
+          for f in md/*.md; do
+            python tools/extract_frontmatter.py "$f" > /tmp/fm.json && \
+              check-jsonschema --schemafile schemas/frontmatter.schema.json /tmp/fm.json || exit 1
+          done
+          check-jsonschema --schemafile schemas/overrides.schema.json overrides/*.yaml || true
+
+      - name: Линт корпуса
+        run: python -m normconv.cli lint md
+
+      - name: Ручные правки мимо overrides?
+        run: python tools/check_no_manual_edits.py --md md --sources sources
+
+  golden:
+    if: contains(github.event.pull_request.labels.*.name, 'converter') || contains(join(github.event.commits.*.message, ','), 'fix(converter')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11", cache: pip }
+      - run: pip install -e "tools/[dev]"
+      - name: Регрессии по эталонам
+        run: python tools/tests/run_golden.py evals/golden --md md
+
+  evals:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11", cache: pip }
+      - run: pip install -e "tools/[dev]"
+      - run: python -m normconv.cli chunk md --out index/chunks.jsonl
+      - name: RAG-evals
+        run: python evals/run_eval.py evals/qa.yaml --index index/chunks.jsonl --report evals/_report.md
+      - uses: actions/upload-artifact@v4
+        with: { name: eval-report, path: evals/_report.md }
