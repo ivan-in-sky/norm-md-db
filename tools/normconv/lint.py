@@ -12,6 +12,7 @@ import json
 import os
 import re
 import sys
+import urllib.parse
 
 REQUIRED_FM = ["doc_id", "designation", "kind", "title", "status", "language",
                "license", "source", "conversion", "stats"]
@@ -260,8 +261,9 @@ def lint_text(text: str, fname: str) -> list[dict]:
             elif tgt.startswith(("http://", "https://")):
                 continue
             elif not tgt.startswith("mailto:"):
-                p = os.path.normpath(os.path.join(base, tgt.split("#")[0]))
-                if tgt.split("#")[0] and not os.path.exists(p):
+                path = urllib.parse.unquote(tgt.split("#")[0])
+                p = os.path.normpath(os.path.join(base, path))
+                if path and not os.path.exists(p):
                     add("warning", "broken_file_link", "ссылка на отсутствующий файл %s" % tgt, i)
     return issues
 
