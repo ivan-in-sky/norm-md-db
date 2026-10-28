@@ -1,0 +1,6 @@
+PRODUCER: 
+CREATOR: 
+TITLE: 
+markers_izm1=0 markers_izm2=0
+has_337_1325800: False
+has_GOST_R_58386: False
