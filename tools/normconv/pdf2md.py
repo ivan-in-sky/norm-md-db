@@ -40,12 +40,22 @@ HYPHEN_BREAK_RE = re.compile(r"([а-яёa-z])- (?=[а-яёa-z])")
 MARK_RE = re.compile(r"</?mark>")
 
 
-def load_pdf(path: str) -> list[dict]:
-    """Страницы с текстом в Markdown-разметке (pymupdf4llm)."""
+def load_pdf(path: str, images_dir: str = "") -> list[dict]:
+    """Страницы с текстом в Markdown-разметке (pymupdf4llm).
+
+    Если задан images_dir — встроенные изображения (формулы) извлекаются туда:
+    pymupdf4llm пишет их в cwd как <basename>-NNNN-NN.png, переносим.
+    """
+    import glob
     import pymupdf4llm
 
-    chunks = pymupdf4llm.to_markdown(path, page_chunks=True, write_images=False,
+    chunks = pymupdf4llm.to_markdown(path, page_chunks=True, write_images=bool(images_dir),
                                      show_progress=False)
+    if images_dir:
+        # pymupdf4llm именует файлы <basename с расширением>-NNNN-NN.png
+        base = os.path.basename(path)
+        for fn in sorted(glob.glob(base + "-*.png")):
+            os.replace(fn, os.path.join(images_dir, fn))
     out = []
     for c in chunks:
         meta = c.get("metadata") or {}
@@ -146,7 +156,9 @@ class Pdf2Md:
     # ------------------------------------------------------------------ #
     def convert(self, outdir: str, stem: str = "") -> tuple:
         stem = stem or os.path.splitext(os.path.basename(self.path))[0]
-        pages = load_pdf(self.path)
+        assets_dir = os.path.join(outdir, "assets")
+        os.makedirs(assets_dir, exist_ok=True)
+        pages = load_pdf(self.path, assets_dir)
         # скрытые служебные заголовки экспортов СПС: повторяются на каждой странице
         running = detect_running_lines(pages)
         self.running_facts: dict = {}
@@ -263,7 +275,16 @@ class Pdf2Md:
         meta["note_name"] = self.note_base
         meta["aliases"] = _ob.build_aliases(designation, meta.get("supersedes_designations") or [])
         fm = self.build_frontmatter(meta, conf, pages)
+        # формулы/картинки: ссылки pymupdf4llm ![](x.png) → assets/, учёт в отчёте
+        def _img(m):
+            ref = m.group(1)
+            if os.path.exists(os.path.join(assets_dir, ref)):
+                self.report.images.append({"path": "assets/" + ref,
+                                           "size": os.path.getsize(os.path.join(assets_dir, ref))})
+                return "![](assets/%s)" % ref
+            return m.group(0)
         full_md = fm + md_body.rstrip() + "\n"
+        full_md = re.sub(r"!\[\]\(([^)]+\.png)\)", _img, full_md)
         if self.opts.obsidian:
             registry = _ob.load_registry(self.opts.registry_path)
             if designation:
@@ -391,7 +412,8 @@ class Pdf2Md:
                 rest = "**%s** %s" % (dm.group(1).rstrip(":"), dm.group(2))
                 self.report.definitions = getattr(self.report, "definitions", 0) + 1
                 return "> **%s** %s ^%s" % (num, rest, bid)
-            return "**%s** %s ^%s" % (num, rest, bid)
+            # номер пункта — обычный текст, не жирный (docs/format.md)
+            return "%s %s ^%s" % (num, rest, bid)
 
         # --- перечисление внутри пункта ---
         if re.match(r"^[а-яa-z]\)\s", flat) or re.match(r"^\d{1,2}\s+[А-ЯЁ]", flat):
