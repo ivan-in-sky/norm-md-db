@@ -1804,7 +1804,12 @@ class Docx2Md:
         stem = stem or os.path.splitext(os.path.basename(self.path))[0]
         meta = extract_meta(self.first_lines(), stem)
         self.doc_id = meta.get("doc_id") or slugify(stem)
-        self.assets_dirname = "%s.assets" % self.doc_id
+        # режим «папка на документ»: outdir — сама папка документа → картинки в assets/
+        _out_base = os.path.basename(os.path.normpath(outdir))
+        _note_name = _ob.note_name((meta.get("designation") or "").strip())
+        self.assets_dirname = ("assets"
+                               if _out_base and _out_base == _note_name
+                               else "%s.assets" % self.doc_id)
         self.report.doc_id = self.doc_id
         self.report.meta = meta
 

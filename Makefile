@@ -1,22 +1,22 @@
-# normconv — оркестрация рабочей базы
+# norm-md-db — оркестрация базы нормативов
 #
 #   make lint                    гейт качества (error: 0)
 #   make chunk catalog clauses report   производные артефакты
-#   make convert                 пакетная конвертация источников/ -> документы/
-#   make convert DOC=<doc_id>    одиночный документ с overrides (правки/)
+#   make convert                 пакетная конвертация .sources/ -> data/
+#   make convert DOC=<doc_id>    одиночный документ с overrides (tools/config/)
 #
-# Полный цикл добавления документа: docs/10-local-agent.md
+# Полный цикл добавления документа: .dev/runbook.md
 
-SHELL      := /bin/bash
-MD_DIR     ?= база/документы
-SRC_DIR    ?= база/источники
-INDEX_DIR  ?= база/индекс
-CATALOG    ?= база/каталог
-OVERRIDES  ?= база/правки
-REGISTRY   ?= база/актуальные-версии.yaml
-JOBS       ?= 8
-PY         ?= python3
-NORMCONV   := $(PY) -m normconv.cli
+SHELL       := /bin/bash
+MD_DIR      ?= data
+SRC_DIR     ?= .sources
+INDEX_DIR   ?= .tmp/index
+CATALOG_DIR ?= .tmp/catalog
+OVERRIDES   ?= tools/config
+REGISTRY    ?= data/registry.yaml
+JOBS        ?= 8
+PY          ?= python3
+NORMCONV    := $(PY) -m normconv.cli
 
 export PYTHONPATH := tools:$(PYTHONPATH)
 
@@ -29,18 +29,21 @@ lint:
 	$(NORMCONV) lint $(MD_DIR)
 
 chunk:
+	mkdir -p $(INDEX_DIR)
 	$(NORMCONV) chunk $(MD_DIR) --out $(INDEX_DIR)/chunks.jsonl
 
 catalog:
-	$(NORMCONV) catalog $(MD_DIR) --out $(CATALOG)
+	mkdir -p $(CATALOG_DIR)
+	$(NORMCONV) catalog $(MD_DIR) --out $(CATALOG_DIR)
+	sed 's|](\.\./|](|g' $(CATALOG_DIR)/INDEX.md > CATALOG.md
 
 clauses:
-	$(NORMCONV) clauses $(MD_DIR) --out $(CATALOG)/CLAUSES.md
+	$(NORMCONV) clauses $(MD_DIR) --out $(CATALOG_DIR)/CLAUSES.md
 
 report:
 	$(NORMCONV) report $(MD_DIR)
 
-# Одиночный документ: применяет правки/<DOC>.yaml и словарь символов (если есть),
+# Одиночный документ: применяет tools/config/<DOC>.yaml и словарь символов (если есть),
 # всегда --force (override-файлы не входят в hash кэша).
 LICENSE  ?= официальный документ (ГК РФ ст.1259 п.6)
 convert:
@@ -55,4 +58,4 @@ else
 endif
 
 clean:
-	rm -rf $(INDEX_DIR) $(CATALOG) $(MD_DIR)/_reports
+	rm -rf $(INDEX_DIR) $(CATALOG_DIR) CATALOG.md data/**/_reports
