@@ -460,7 +460,7 @@ excluded_clauses: []              # [{clause, range_to?, since, amendment}] — 
 
 # ---- провенанс ----
 source:
-  kind: docx                      # docx | doc | pdf | ocr
+  kind: html                      # docx | doc | pdf | ocr | html (vendor-HTML спецсистем, с 2026-11-04)
   file: sp_56_13330_2021.docx
   sha256: a762d300…
   uri: "https://…"                # полный реестр — data/inventory.csv

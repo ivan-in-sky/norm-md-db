@@ -15,7 +15,7 @@ PYTHONPATH=tools python -m normconv.cli convert <файл> --out data \
   --license "официальный документ (ГК РФ ст.1259 п.6)" \
   --registry data/registry.yaml --source-uri <url> [--force]
 
-# 3. эталонная сверка с официальным PDF:
+# 3. выборочная сверка с официальным PDF (если есть):
 PYTHONPATH=tools python -m normconv.pdf2md <офиц.pdf> --out .tmp/ref
 PYTHONPATH=tools python -m normconv.cli compare compare data/<кат>/<ОБЗ>/.md .tmp/ref/*.md
 
@@ -33,7 +33,7 @@ make chunk catalog clauses report
 | проверка | норма |
 |---|---|
 | `lint` | `error: 0`; штатные warnings: `fm_status_unknown`, `low_confidence` |
-| сверка с эталоном | покрытие пунктов ≥ 95 %; потери — только объяснённые |
+| выборочная сверка с офиц. PDF | если выполняется: покрытие ≥ 95 %, потери только объяснённые |
 | confidence фронтмэттера | ≥ 0.95 зелёный; < 0.8 — обязательный триаж (`<doc_id>.qa.md`) |
 | строки справочных систем (КонсультантПлюс/Техэксперт/cntd) | **не допускаются** в теле заметок |
 
