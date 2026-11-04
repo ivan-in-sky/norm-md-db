@@ -670,6 +670,14 @@ def convert_html_file(src: Path, out_dir: Path, doc_meta: dict, download_imgs: b
             headings[lv] = headings.get(lv, 0) + 1
     doc_meta["stats_words"] = words
     doc_meta["stats_headings"] = headings
+    # ручные override (tools/config/<doc_id>.yaml) — единственное место ручных правок
+    cfg_path = Path(__file__).resolve().parents[1] / "config" / f"{doc_meta['doc_id']}.yaml"
+    if cfg_path.exists():
+        import yaml as _yaml_cfg
+        ov = _yaml_cfg.safe_load(cfg_path.read_text(encoding="utf-8")) or {}
+        for k in ("status", "confidence"):
+            if ov.get(k) is not None:
+                doc_meta[k] = ov[k]
     h1 = f"# {doc_meta['designation']} — {doc_meta['title']}"
     fm = build_frontmatter(doc_meta, stats, src)
     out_md = out_dir / f"{doc_meta['note_name']}.md"
@@ -703,7 +711,7 @@ aliases:
   - {meta['alias_versionless']}
 year: {meta['year']}
 language: ru
-status: unknown
+status: {meta.get('status', 'unknown')}
 amendments: [{', '.join(str(x) for x in meta.get('amendments', []))}]
 
 source:
