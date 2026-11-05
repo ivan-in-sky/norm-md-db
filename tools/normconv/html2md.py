@@ -678,6 +678,8 @@ def convert_html_file(src: Path, out_dir: Path, doc_meta: dict, download_imgs: b
         for k in ("status", "confidence"):
             if ov.get(k) is not None:
                 doc_meta[k] = ov[k]
+        if isinstance(ov.get("excluded_clauses"), list):
+            doc_meta["excluded_clauses"] = ov["excluded_clauses"]
     h1 = f"# {doc_meta['designation']} — {doc_meta['title']}"
     fm = build_frontmatter(doc_meta, stats, src)
     out_md = out_dir / f"{doc_meta['note_name']}.md"
@@ -700,6 +702,15 @@ def convert_html_file(src: Path, out_dir: Path, doc_meta: dict, download_imgs: b
 def build_frontmatter(meta: dict, stats: dict, src: Path) -> str:
     import datetime
     sha = sha256_bytes(src.read_bytes())
+    excl_lines = []
+    for ec in meta.get("excluded_clauses", []) or []:
+        line = "  - clause: \"%s\"" % ec["clause"]
+        if ec.get("since"):
+            line += "\n    since: %s" % ec["since"]
+        if ec.get("amendment") is not None:
+            line += "\n    amendment: %s" % ec["amendment"]
+        excl_lines.append(line)
+    excl_block = ("excluded_clauses:\n" + "\n".join(excl_lines)) if excl_lines else ""
     fm = f"""---
 doc_id: {meta['doc_id']}
 designation: {meta['designation']}
@@ -713,6 +724,7 @@ year: {meta['year']}
 language: ru
 status: {meta.get('status', 'unknown')}
 amendments: [{', '.join(str(x) for x in meta.get('amendments', []))}]
+{excl_block}
 
 source:
   kind: html

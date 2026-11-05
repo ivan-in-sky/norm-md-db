@@ -4,4 +4,15 @@
 
 status: active
 status_checked: "2026-11-04"
-confidence: 0.7   # после триажа структуры; до постраничной сверки с официальным PDF
+confidence: 0.85   # после сверки со StroyInf (покрытие 98,1%, потери объяснены)
+
+# Исключённые пункты (пометы в тексте консолидированной редакции):
+excluded_clauses:
+  - clause: "8.2.4"
+    amendment: 2
+  - clause: "8.2.5"
+    amendment: 2
+  - clause: "8.3.2"
+    amendment: 2
+  - clause: "8.3.3"
+    amendment: 2
