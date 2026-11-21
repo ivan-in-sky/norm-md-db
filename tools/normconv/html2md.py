@@ -156,6 +156,11 @@ def inline_to_md(el) -> str:
     """
     out: list[str] = []
 
+    def _tail_of(el):
+        tail = el.tail or ""
+        if tail:
+            out.append(tail.replace("\u00a0", " "))
+
     def walk(node):
         pre = node.text or ""
         if pre:
@@ -163,18 +168,22 @@ def inline_to_md(el) -> str:
         for child in list(node):
             tag = child.tag if isinstance(child.tag, str) else None
             if tag is None:
+                _tail_of(child)
                 continue
             if tag == "br":
                 out.append(" ")
+                _tail_of(child)
                 continue
             if tag == "img":
                 src = child.get("src", "")
                 w = int(child.get("width") or 0)
                 h = int(child.get("height") or 0)
                 out.append(f"⟦IMG:{src[:64]}|{w}x{h}⟧")
+                _tail_of(child)
                 continue
             if tag == "a":
                 walk(child)
+                _tail_of(child)
                 continue
             if tag in ("i", "sub", "sup"):
                 # собрать прогон: текущий i + следующие sub/sup/i подряд
@@ -189,11 +198,14 @@ def inline_to_md(el) -> str:
                 else:                    # fallback: просто текст прогона без разметки
                     txt = " ".join((x.text or "").strip() for x in run)
                     out.append(txt.replace("\u00a0", " "))
+                _tail_of(run[-1])  # хвост ПОСЛЕДНЕГО элемента прогона (i+sub+sup)
                 continue
             if tag == "b":
                 walk(child)
+                _tail_of(child)
                 continue
             walk(child)
+            _tail_of(child)
         tail = node.tail or ""
         if tail:
             out.append(tail.replace("\u00a0", " "))
@@ -658,7 +670,44 @@ def convert_html_file(src: Path, out_dir: Path, doc_meta: dict, download_imgs: b
         md.append("")
         i += 1
 
-    body = "\n".join(md).rstrip() + "\n"
+    # финальная нормализация помет изменений и вендорных сносок («____» + «* …»),
+    # не попавших в строковые паттерны выше: «Таблица 8.1 (Измененная редакция, Изм. N 1).»,
+    # двойные пометы на одной строке, сноски к заголовкам/таблицам
+    _NOTE_KW = r"(?:Введ[е]?н[о]? дополнительно|Исключен[аео]?|Измененная редакция)"
+    raw_lines = list(md)
+    merged: list[str] = []
+    i = 0
+    while i < len(raw_lines):
+        ln = raw_lines[i]
+        if (re.fullmatch(r"_+", ln.strip()) and i + 1 < len(raw_lines)
+                and raw_lines[i + 1].lstrip().startswith("* ")):
+            note_line = raw_lines[i + 1].lstrip()[2:].strip()
+            # звёздочка-маркер сноски на предыдущей строке (заголовок/текст) — убрать
+            if merged and merged[-1].rstrip().endswith("*"):
+                merged[-1] = merged[-1].rstrip()[:-1].rstrip()
+            merged.append(note_line)
+            i += 2
+            continue
+        merged.append(ln)
+        i += 1
+
+    def _norm_note_line(s: str) -> str:
+        s = re.sub(r"(Изм\.\s*)N\b", r"\g<1>№", s).strip()
+        mnote = re.match(
+            r"^([^(]{0,40}?)((?:\(" + _NOTE_KW + r"[^)]*\))(?:[ ,]*\(" + _NOTE_KW + r"[^)]*\))*)\.?$",
+            s)
+        if mnote and len(s) < 250 and not s.lstrip().startswith("**("):
+            prefix = mnote.group(1).strip()
+            notes = re.findall(r"\((" + _NOTE_KW + r"[^)]*)\)", mnote.group(2))
+            joined = " ".join(f"**({n}).**" for n in notes)
+            return (f"{prefix} {joined}" if prefix else joined).strip()
+        mplain = re.match(r"^(" + _NOTE_KW + r"[^.]{0,60})\.?$", s)
+        if mplain and len(s) < 150:
+            return f"**({mplain.group(1).strip()}).**"
+        return s
+
+    norm_lines = [_norm_note_line(ln) for ln in merged]
+    body = "\n".join(norm_lines).rstrip() + "\n"
 
     # ---------- H1 и фронтмэттер ----------
     words = len(body.split())
@@ -696,6 +745,44 @@ def convert_html_file(src: Path, out_dir: Path, doc_meta: dict, download_imgs: b
     }
     (out_dir / ".qa.html2md.json").write_text(
         json.dumps(report, ensure_ascii=False, indent=1), encoding="utf-8")
+
+    # канонический сайдкар <note>.qa.json — единая схема для catalog/dashboard/chunker
+    import datetime as _dt
+    canonical = {
+        "doc_id": doc_meta["doc_id"],
+        "words": words,
+        "headings": headings,
+        "clauses": stats.get("clauses", 0),
+        "tables": stats.get("tables", 0),
+        "formulas": stats.get("formulas", 0),
+        "figures": stats.get("figures", 0),
+        "images": stats.get("images", 0),
+        "review": qa,
+        "meta": {
+            "doc_id": doc_meta["doc_id"],
+            "designation": doc_meta["designation"],
+            "kind": "sp",
+            "number": doc_meta.get("number", ""),
+            "title": doc_meta["title"],
+            "year": str(doc_meta.get("year") or ""),
+            "status": doc_meta.get("status", "unknown"),
+            "amendments": doc_meta.get("amendments", []),
+            "language": "ru",
+            "license": "официальный документ (ГК РФ ст.1259 п.6)",
+        },
+        "confidence": doc_meta.get("confidence", 0.5),
+        "counts": {
+            "tables": stats.get("tables", 0),
+            "tables_merged": 0,
+            "formulas": stats.get("formulas", 0),
+            "formulas_low_confidence": 0,
+            "images": stats.get("images", 0),
+        },
+        "generated_at": _dt.datetime.now(_dt.timezone.utc).isoformat(timespec="seconds"),
+        "tool_version": "0.1.0",
+    }
+    (out_dir / f"{doc_meta['note_name']}.qa.json").write_text(
+        json.dumps(canonical, ensure_ascii=False, indent=2), encoding="utf-8")
     return report
 
 

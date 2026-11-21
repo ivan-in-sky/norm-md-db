@@ -3,6 +3,7 @@
 .dev/
 # рабочая зона сессий, рендеры, черновики
 .tmp/
+.work/
 # исходники docx/pdf/html (реестр — data/inventory.csv)
 .sources/
 # наши внутренние инструкции агента (пример — AGENTS.md.sample)
@@ -27,3 +28,6 @@ venv/
 .obsidian/
 Thumbs.db
 .DS_Store
+
+# отчёты сверки (пересобираются: compare compare)
+data/**/COMPARISON.md

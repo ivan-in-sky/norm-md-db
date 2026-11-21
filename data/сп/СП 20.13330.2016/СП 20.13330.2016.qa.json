@@ -1,0 +1,609 @@
+{
+  "doc_id": "sp-20-13330-2016",
+  "words": 26349,
+  "headings": {
+    "2": 30,
+    "3": 11
+  },
+  "clauses": 129,
+  "tables": 31,
+  "formulas": 50,
+  "figures": 76,
+  "images": 76,
+  "review": [
+    {
+      "kind": "image_download_failed",
+      "url": "https://api.docs.cntd.ru/img/45/60/44/31/8/99bd5477-bade-485c-94",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "kind": "table_no_caption",
+      "uid": "tu001"
+    },
+    {
+      "kind": "table_no_caption",
+      "uid": "tu002"
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu001",
+      "w": 907,
+      "h": 458
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu002",
+      "w": 348,
+      "h": 251
+    },
+    {
+      "kind": "table_no_caption",
+      "uid": "tu003"
+    },
+    {
+      "kind": "table_no_caption",
+      "uid": "tu004"
+    },
+    {
+      "kind": "table_no_caption",
+      "uid": "tu005"
+    },
+    {
+      "kind": "table_no_caption",
+      "uid": "tu006"
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu003",
+      "w": 417,
+      "h": 602
+    },
+    {
+      "kind": "table_no_caption",
+      "uid": "tu007"
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu004",
+      "w": 518,
+      "h": 493
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu005",
+      "w": 405,
+      "h": 315
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu006",
+      "w": 439,
+      "h": 426
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu007",
+      "w": 529,
+      "h": 442
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu008",
+      "w": 338,
+      "h": 259
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu009",
+      "w": 388,
+      "h": 313
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu010",
+      "w": 387,
+      "h": 398
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu011",
+      "w": 507,
+      "h": 336
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu012",
+      "w": 418,
+      "h": 513
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu013",
+      "w": 455,
+      "h": 1067
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu014",
+      "w": 697,
+      "h": 550
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu015",
+      "w": 565,
+      "h": 306
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu016",
+      "w": 417,
+      "h": 923
+    },
+    {
+      "kind": "table_no_caption",
+      "uid": "tu008"
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu017",
+      "w": 548,
+      "h": 421
+    },
+    {
+      "kind": "table_no_caption",
+      "uid": "tu009"
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu018",
+      "w": 422,
+      "h": 638
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu019",
+      "w": 372,
+      "h": 567
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu020",
+      "w": 256,
+      "h": 221
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu021",
+      "w": 656,
+      "h": 339
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu022",
+      "w": 650,
+      "h": 129
+    },
+    {
+      "kind": "table_no_caption",
+      "uid": "tu010"
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu023",
+      "w": 434,
+      "h": 312
+    },
+    {
+      "kind": "table_no_caption",
+      "uid": "tu011"
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu024",
+      "w": 1086,
+      "h": 347
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu025",
+      "w": 520,
+      "h": 705
+    },
+    {
+      "kind": "table_no_caption",
+      "uid": "tu012"
+    },
+    {
+      "kind": "table_no_caption",
+      "uid": "tu013"
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu026",
+      "w": 548,
+      "h": 608
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu027",
+      "w": 620,
+      "h": 762
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu028",
+      "w": 345,
+      "h": 316
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu029",
+      "w": 405,
+      "h": 174
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu030",
+      "w": 358,
+      "h": 132
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu031",
+      "w": 262,
+      "h": 151
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu032",
+      "w": 467,
+      "h": 349
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu033",
+      "w": 384,
+      "h": 330
+    },
+    {
+      "kind": "table_no_caption",
+      "uid": "tu014"
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu034",
+      "w": 312,
+      "h": 155
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu035",
+      "w": 535,
+      "h": 355
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu036",
+      "w": 571,
+      "h": 201
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu037",
+      "w": 387,
+      "h": 345
+    },
+    {
+      "kind": "table_no_caption",
+      "uid": "tu015"
+    },
+    {
+      "kind": "table_no_caption",
+      "uid": "tu016"
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu038",
+      "w": 576,
+      "h": 285
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu039",
+      "w": 428,
+      "h": 240
+    },
+    {
+      "kind": "table_no_caption",
+      "uid": "tu017"
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu040",
+      "w": 560,
+      "h": 533
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu041",
+      "w": 292,
+      "h": 208
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu042",
+      "w": 347,
+      "h": 262
+    },
+    {
+      "kind": "table_no_caption",
+      "uid": "tu018"
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu043",
+      "w": 218,
+      "h": 185
+    },
+    {
+      "kind": "table_no_caption",
+      "uid": "tu019"
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu044",
+      "w": 602,
+      "h": 354
+    },
+    {
+      "kind": "table_no_caption",
+      "uid": "tu020"
+    },
+    {
+      "kind": "table_no_caption",
+      "uid": "tu021"
+    },
+    {
+      "kind": "table_no_caption",
+      "uid": "tu022"
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu045",
+      "w": 543,
+      "h": 363
+    },
+    {
+      "kind": "table_no_caption",
+      "uid": "tu023"
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu046",
+      "w": 733,
+      "h": 182
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu047",
+      "w": 448,
+      "h": 137
+    },
+    {
+      "kind": "table_no_caption",
+      "uid": "tu024"
+    },
+    {
+      "kind": "table_no_caption",
+      "uid": "tu025"
+    },
+    {
+      "kind": "table_no_caption",
+      "uid": "tu026"
+    },
+    {
+      "kind": "table_no_caption",
+      "uid": "tu027"
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu048",
+      "w": 2750,
+      "h": 1494
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu049",
+      "w": 979,
+      "h": 3354
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu050",
+      "w": 3585,
+      "h": 2682
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu051",
+      "w": 847,
+      "h": 604
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu052",
+      "w": 5079,
+      "h": 2789
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu053",
+      "w": 8479,
+      "h": 4603
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu054",
+      "w": 3573,
+      "h": 2661
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu055",
+      "w": 791,
+      "h": 564
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu056",
+      "w": 5079,
+      "h": 2787
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu057",
+      "w": 3228,
+      "h": 1814
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu058",
+      "w": 3585,
+      "h": 2679
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu059",
+      "w": 2943,
+      "h": 2175
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu060",
+      "w": 3330,
+      "h": 3001
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu061",
+      "w": 3327,
+      "h": 3007
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu062",
+      "w": 3321,
+      "h": 2998
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu063",
+      "w": 817,
+      "h": 599
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu064",
+      "w": 5079,
+      "h": 2787
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu065",
+      "w": 3585,
+      "h": 2664
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu066",
+      "w": 835,
+      "h": 590
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu067",
+      "w": 5079,
+      "h": 2786
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu068",
+      "w": 3573,
+      "h": 2670
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu069",
+      "w": 827,
+      "h": 586
+    },
+    {
+      "kind": "table_no_caption",
+      "uid": "tu028"
+    },
+    {
+      "kind": "table_no_caption",
+      "uid": "tu029"
+    },
+    {
+      "kind": "table_no_caption",
+      "uid": "tu030"
+    },
+    {
+      "kind": "image_only_table",
+      "uid": "fu070",
+      "w": 482,
+      "h": 509
+    },
+    {
+      "kind": "table_no_caption",
+      "uid": "tu031"
+    },
+    {
+      "kind": "truncated_data_uri",
+      "count": 50,
+      "samples": [
+        "truncated data-uri len=42: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZIAAAARCAMAAADAD9'",
+        "truncated data-uri len=46: 'data:image;base64,R0lGODdhGAAYAIABAAAAAP///ywAAAAAGAAYAAACNIyPqc'",
+        "truncated data-uri len=46: 'data:image;base64,R0lGODdhFAAYAIABAAAAAP///ywAAAAAFAAYAAACKoyPqc'",
+        "truncated data-uri len=46: 'data:image;base64,R0lGODdhGwAYAIABAAAAAP///ywAAAAAGwAYAAACPoyPqc'",
+        "truncated data-uri len=42: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZIAAAARCAMAAADAD9'",
+        "truncated data-uri len=46: 'data:image;base64,R0lGODdhDQAPAIABAAAAAP///ywAAAAADQAPAAACGYyPqc'",
+        "truncated data-uri len=42: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZIAAAARCAMAAADAD9'",
+        "truncated data-uri len=42: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZIAAAARCAMAAADAD9'",
+        "truncated data-uri len=46: 'data:image;base64,R0lGODdhFAAYAIABAAAAAP///ywAAAAAFAAYAAACL4yPqc'",
+        "truncated data-uri len=46: 'data:image;base64,R0lGODdhFAAYAIABAAAAAP///ywAAAAAFAAYAAACL4yPqc'"
+      ]
+    }
+  ],
+  "meta": {
+    "doc_id": "sp-20-13330-2016",
+    "designation": "СП 20.13330.2016",
+    "kind": "sp",
+    "number": "20.1333",
+    "title": "Нагрузки и воздействия",
+    "year": "2016",
+    "status": "active",
+    "amendments": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "language": "ru",
+    "license": "официальный документ (ГК РФ ст.1259 п.6)"
+  },
+  "confidence": 0.85,
+  "counts": {
+    "tables": 31,
+    "tables_merged": 0,
+    "formulas": 50,
+    "formulas_low_confidence": 0,
+    "images": 76
+  },
+  "generated_at": "2026-11-21T10:04:35+00:00",
+  "tool_version": "0.1.0"
+}
